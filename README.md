@@ -9,6 +9,13 @@ Automated tests for [SauceDemo](https://www.saucedemo.com) (frontend) and [ReqRe
 - Page Object Model — frontend architecture pattern
 - GitHub Actions — CI pipeline
 
+## Architecture decisions
+
+- **Page Object Model** — UI interactions are encapsulated in page classes, keeping tests readable and selectors in one place
+- **Separate projects** (`frontend` / `api`) — different base URLs, reporters, and configs without interference
+- **Data-driven tests** — external test fixtures in `test-data/` so payloads are easy to extend without touching test logic
+- **Tags** (`@ui` / `@api`) — allow selective runs locally and via CI `workflow_dispatch` dropdown
+
 ## Task #1 — Frontend (SauceDemo) `@ui`
 
 - **Successful login** — entry point of the app; a broken login blocks everything
