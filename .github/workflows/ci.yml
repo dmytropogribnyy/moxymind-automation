@@ -42,6 +42,20 @@ jobs:
         env:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
 
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Playwright Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| | |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| Suite | \`${{ github.event.inputs.suite || 'all' }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Trigger | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Branch | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ${{ job.status == 'success' && '✅ passed' || '❌ failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📄 [Download HTML report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
         if: always()
