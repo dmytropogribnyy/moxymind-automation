@@ -1,0 +1,21 @@
+{
+  "name": "moxymind-automation",
+  "version": "1.0.0",
+  "description": "Automation tests for SauceDemo (frontend) and ReqRes (API) — Moxymind Tasks #1 & #2",
+  "scripts": {
+    "test": "playwright test",
+    "test:frontend": "playwright test --project=frontend",
+    "test:api": "playwright test --project=api",
+    "test:headed": "playwright test --project=frontend --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "cross-env PWDEBUG=1 playwright test",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.0.0",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.4.2",
+    "typescript": "^5.0.0"
+  }
+}

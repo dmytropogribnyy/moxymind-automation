@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["node", "@playwright/test"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "rootDir": "./"
+  },
+  "include": [
+    "tests/**/*.ts",
+    "pages/**/*.ts",
+    "test-data/**/*.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}
