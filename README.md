@@ -102,3 +102,7 @@ Tests run automatically on every push and pull request via GitHub Actions.
 To trigger manually, use the **Run workflow** button on the Actions tab in GitHub — select the suite from the dropdown.
 
 The HTML report is uploaded as an artifact after each run (pass or fail).
+
+Each run generates a **Job Summary** with status, trigger info, and a direct link to the report:
+
+![CI Summary](docs/CI_summary.png)
