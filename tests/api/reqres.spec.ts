@@ -3,7 +3,7 @@
 import { test, expect } from '@playwright/test';
 import { usersToCreate } from '../../test-data/createUsers';
 
-const RESPONSE_TIME_LIMIT_MS = 2000;
+const RESPONSE_TIME_LIMIT_MS = 400;
 
 test.describe('ReqRes API', { tag: '@api' }, () => {
   test('GET /api/users?page=2 — should return paginated user list', async ({
