@@ -18,7 +18,7 @@ on:
           - api
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
@@ -29,15 +29,13 @@ env:
 
 jobs:
   validate:
-    name: Bootstrap and validate
+    name: Quality checks and Playwright
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -45,11 +43,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - name: Resolve dependencies
-        run: npm install --no-audit --no-fund
-
-      - name: Format source
-        run: npm run format
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: Quality checks
         run: |
@@ -72,50 +67,6 @@ jobs:
         env:
           CI: true
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
-
-      - name: Commit formatting and dependency lock
-        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No generated changes to commit."
-            exit 0
-          fi
-          git commit -m "chore: apply formatting and lock dependencies"
-          git push origin "HEAD:${{ github.head_ref }}"
-
-      - name: Upload formatted source and lockfile
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: formatted-source
-          path: |
-            .env.example
-            .github
-            .gitignore
-            .prettierignore
-            .prettierrc.json
-            clients
-            config
-            docs
-            fixtures
-            pages
-            schemas
-            test-data
-            tests
-            utils
-            CONTRIBUTING.md
-            README.md
-            SECURITY.md
-            eslint.config.mjs
-            package.json
-            package-lock.json
-            playwright.config.ts
-            tsconfig.json
-          include-hidden-files: true
-          retention-days: 2
 
       - name: Upload Playwright report
         id: upload-report
@@ -148,4 +99,6 @@ jobs:
           echo "| Commit | \`${GITHUB_SHA::8}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Result | \`${{ job.status }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Playwright HTML reports and failure evidence are retained as workflow artifacts." >> "$GITHUB_STEP_SUMMARY"
+          echo "📦 [Download HTML report](${{ steps.upload-report.outputs.artifact-url }})" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Failure traces, screenshots, videos, and API timing attachments are retained with the run when available." >> "$GITHUB_STEP_SUMMARY"
