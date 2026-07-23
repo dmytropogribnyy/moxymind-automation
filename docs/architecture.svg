@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">Moxymind Quality Automation architecture</title>
+  <desc id="desc">Playwright test orchestration with UI and API paths, shared fixtures, page objects, typed API client, runtime schemas, and evidence artifacts.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#172554"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#93c5fd"/>
+    </marker>
+    <style>
+      .title { font: 700 28px Inter, Segoe UI, Arial, sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 15px Inter, Segoe UI, Arial, sans-serif; fill: #cbd5e1; }
+      .box-title { font: 700 17px Inter, Segoe UI, Arial, sans-serif; fill: #f8fafc; }
+      .box-copy { font: 400 13px Inter, Segoe UI, Arial, sans-serif; fill: #cbd5e1; }
+      .label { font: 600 12px Inter, Segoe UI, Arial, sans-serif; fill: #bfdbfe; }
+      .connector { stroke: #93c5fd; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="640" rx="24" fill="url(#background)"/>
+  <text x="60" y="62" class="title">Moxymind Quality Automation</text>
+  <text x="60" y="90" class="subtitle">Risk-based Playwright orchestration with typed contracts and failure evidence</text>
+
+  <g filter="url(#shadow)">
+    <rect x="430" y="120" width="340" height="82" rx="14" fill="#1e3a8a" stroke="#60a5fa"/>
+    <text x="600" y="152" text-anchor="middle" class="box-title">Execution &amp; Configuration</text>
+    <text x="600" y="177" text-anchor="middle" class="box-copy">Playwright projects · environment controls · tags</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="260" width="250" height="105" rx="14" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="195" y="294" text-anchor="middle" class="box-title">UI Test Suite</text>
+    <text x="195" y="319" text-anchor="middle" class="box-copy">Authentication · cart · checkout</text>
+    <text x="195" y="342" text-anchor="middle" class="box-copy">Smoke and regression risk groups</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="365" y="260" width="220" height="105" rx="14" fill="#1e293b" stroke="#22d3ee"/>
+    <text x="475" y="294" text-anchor="middle" class="box-title">Shared Fixtures</text>
+    <text x="475" y="319" text-anchor="middle" class="box-copy">Lifecycle and dependency wiring</text>
+    <text x="475" y="342" text-anchor="middle" class="box-copy">Readable test composition</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="630" y="260" width="220" height="105" rx="14" fill="#1e293b" stroke="#a78bfa"/>
+    <text x="740" y="294" text-anchor="middle" class="box-title">API Client</text>
+    <text x="740" y="319" text-anchor="middle" class="box-copy">Request boundaries and timing</text>
+    <text x="740" y="342" text-anchor="middle" class="box-copy">Typed response handling</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="895" y="260" width="235" height="105" rx="14" fill="#1e293b" stroke="#c084fc"/>
+    <text x="1012" y="294" text-anchor="middle" class="box-title">Runtime Schemas</text>
+    <text x="1012" y="319" text-anchor="middle" class="box-copy">Zod contract validation</text>
+    <text x="1012" y="342" text-anchor="middle" class="box-copy">Pagination and payload invariants</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="115" y="455" width="250" height="92" rx="14" fill="#0f766e" stroke="#5eead4"/>
+    <text x="240" y="489" text-anchor="middle" class="box-title">Page Objects</text>
+    <text x="240" y="515" text-anchor="middle" class="box-copy">Stable locators and UI actions</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="475" y="455" width="250" height="92" rx="14" fill="#7c3aed" stroke="#c4b5fd"/>
+    <text x="600" y="489" text-anchor="middle" class="box-title">External Test Services</text>
+    <text x="600" y="515" text-anchor="middle" class="box-copy">SauceDemo UI · ReqRes API</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="835" y="455" width="250" height="92" rx="14" fill="#9a3412" stroke="#fdba74"/>
+    <text x="960" y="489" text-anchor="middle" class="box-title">Evidence &amp; Reporting</text>
+    <text x="960" y="515" text-anchor="middle" class="box-copy">HTML · traces · screenshots · video</text>
+  </g>
+
+  <path d="M600 202 L195 260" class="connector"/>
+  <path d="M600 202 L475 260" class="connector"/>
+  <path d="M600 202 L740 260" class="connector"/>
+  <path d="M600 202 L1012 260" class="connector"/>
+  <path d="M195 365 L240 455" class="connector"/>
+  <path d="M475 365 L300 455" class="connector"/>
+  <path d="M740 365 L650 455" class="connector"/>
+  <path d="M1012 365 L665 455" class="connector"/>
+  <path d="M600 202 C600 390 880 365 960 455" class="connector"/>
+
+  <text x="60" y="605" class="label">CI: quality checks → selective suite execution → retained evidence</text>
+</svg>

@@ -3,7 +3,7 @@ interface UserCredentials {
   password: string;
 }
 
-export const users: Record<string, UserCredentials> = {
+export const users = {
   standard: {
     username: 'standard_user',
     password: 'secret_sauce',
@@ -12,4 +12,4 @@ export const users: Record<string, UserCredentials> = {
     username: 'locked_out_user',
     password: 'secret_sauce',
   },
-};
+} as const satisfies Record<'standard' | 'lockedOut', UserCredentials>;

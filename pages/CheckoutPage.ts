@@ -1,20 +1,48 @@
-import { Page, expect } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+
+export interface CustomerDetails {
+  firstName: string;
+  lastName: string;
+  postalCode: string;
+}
 
 export class CheckoutPage {
-  constructor(private page: Page) {}
+  readonly firstNameInput: Locator;
+  readonly lastNameInput: Locator;
+  readonly postalCodeInput: Locator;
+  readonly continueButton: Locator;
+  readonly finishButton: Locator;
+  readonly errorMessage: Locator;
+  readonly completeHeader: Locator;
+  readonly itemTotal: Locator;
+  readonly tax: Locator;
+  readonly total: Locator;
 
-  async fillCustomerInfo(firstName: string, lastName: string, postalCode: string) {
-    await this.page.getByTestId('firstName').fill(firstName);
-    await this.page.getByTestId('lastName').fill(lastName);
-    await this.page.getByTestId('postalCode').fill(postalCode);
-    await this.page.getByTestId('continue').click();
+  constructor(private readonly page: Page) {
+    this.firstNameInput = page.getByTestId('firstName');
+    this.lastNameInput = page.getByTestId('lastName');
+    this.postalCodeInput = page.getByTestId('postalCode');
+    this.continueButton = page.getByTestId('continue');
+    this.finishButton = page.getByTestId('finish');
+    this.errorMessage = page.getByTestId('error');
+    this.completeHeader = page.getByTestId('complete-header');
+    this.itemTotal = page.getByTestId('subtotal-label');
+    this.tax = page.getByTestId('tax-label');
+    this.total = page.getByTestId('total-label');
   }
 
-  async finishOrder() {
-    await this.page.getByTestId('finish').click();
+  summaryProduct(name: string): Locator {
+    return this.page.getByTestId('inventory-item-name').filter({ hasText: name });
   }
 
-  async expectOrderConfirmation() {
-    await expect(this.page.getByTestId('complete-header')).toHaveText('Thank you for your order!');
+  async submitCustomerDetails(details: CustomerDetails): Promise<void> {
+    await this.firstNameInput.fill(details.firstName);
+    await this.lastNameInput.fill(details.lastName);
+    await this.postalCodeInput.fill(details.postalCode);
+    await this.continueButton.click();
+  }
+
+  async finishOrder(): Promise<void> {
+    await this.finishButton.click();
   }
 }

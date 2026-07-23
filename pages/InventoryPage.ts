@@ -1,34 +1,44 @@
-import { Page, expect } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export class InventoryPage {
-  constructor(private page: Page) {}
+  readonly title: Locator;
+  readonly cartLink: Locator;
+  readonly cartBadge: Locator;
+  readonly productNames: Locator;
+  readonly productPrices: Locator;
+  readonly sortSelect: Locator;
+  readonly menuButton: Locator;
+  readonly logoutLink: Locator;
 
-  async expectToBeOnInventoryPage() {
-    await expect(this.page).toHaveURL(/inventory/);
-    await expect(this.page.getByTestId('title')).toHaveText('Products');
+  constructor(private readonly page: Page) {
+    this.title = page.getByTestId('title');
+    this.cartLink = page.getByTestId('shopping-cart-link');
+    this.cartBadge = page.getByTestId('shopping-cart-badge');
+    this.productNames = page.getByTestId('inventory-item-name');
+    this.productPrices = page.getByTestId('inventory-item-price');
+    this.sortSelect = page.getByTestId('product-sort-container');
+    this.menuButton = page.getByRole('button', { name: 'Open Menu' });
+    this.logoutLink = page.getByTestId('logout-sidebar-link');
   }
 
-  async addProductToCart(productTestId: string) {
-    await this.page.getByTestId(`add-to-cart-${productTestId}`).click();
+  async addProductToCart(productId: string): Promise<void> {
+    await this.page.getByTestId(`add-to-cart-${productId}`).click();
   }
 
-  async removeProductFromCart(productTestId: string) {
-    await this.page.getByTestId(`remove-${productTestId}`).click();
+  async removeProductFromCart(productId: string): Promise<void> {
+    await this.page.getByTestId(`remove-${productId}`).click();
   }
 
-  async openCart() {
-    await this.page.getByTestId('shopping-cart-link').click();
+  async openCart(): Promise<void> {
+    await this.cartLink.click();
   }
 
-  async expectCartBadgeCount(count: number) {
-    await expect(this.page.getByTestId('shopping-cart-badge')).toHaveText(
-      String(count),
-    );
+  async sortBy(value: 'az' | 'za' | 'lohi' | 'hilo'): Promise<void> {
+    await this.sortSelect.selectOption(value);
   }
 
-  async expectCartBadgeHidden() {
-    await expect(
-      this.page.getByTestId('shopping-cart-badge'),
-    ).not.toBeVisible();
+  async logout(): Promise<void> {
+    await this.menuButton.click();
+    await this.logoutLink.click();
   }
 }

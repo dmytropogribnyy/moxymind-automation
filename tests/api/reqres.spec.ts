@@ -1,93 +1,56 @@
-// Note: comments are included for demo/interview purposes
-// In a real project, well-named tests are usually self-documenting
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test';
 import { usersToCreate } from '../../test-data/createUsers';
+import { recordApiTiming } from '../../utils/api-observability';
 
-const RESPONSE_TIME_LIMIT_MS = 400;
+test.describe('ReqRes API contracts', () => {
+  test(
+    'GET /api/users returns a valid paginated contract',
+    { tag: ['@api', '@smoke', '@critical'] },
+    async ({ reqresClient }, testInfo) => {
+      const result = await reqresClient.listUsers(2);
+      await recordApiTiming(testInfo, 'GET /api/users?page=2', result.elapsedMs);
 
-test.describe('ReqRes API', { tag: '@api' }, () => {
-  test('GET /api/users?page=2 — should return paginated user list', async ({
-    request,
-  }) => {
-    /**
-     * Validates that the core user listing endpoint works correctly.
-     * Pagination, data shape, and total count are critical for any client
-     * consuming this API. A broken GET endpoint = no users displayed anywhere.
-     */
-    const start = Date.now();
-    const response = await request.get('/api/users?page=2');
-    const elapsed = Date.now() - start;
+      expect(result.response.status()).toBe(200);
+      expect(result.response.headers()['content-type']).toContain('application/json');
+      expect(result.body.page).toBe(2);
+      expect(result.body.data.length).toBeGreaterThan(0);
+      expect(result.body.data.length).toBeLessThanOrEqual(result.body.per_page);
 
-    expect(response.status()).toBe(200);
-    expect(elapsed).toBeLessThan(RESPONSE_TIME_LIMIT_MS);
+      const userIds = result.body.data.map((user) => user.id);
+      expect(new Set(userIds).size).toBe(userIds.length);
+    },
+  );
 
-    const body = await response.json();
+  test(
+    'GET /api/users/:id returns 404 for an unknown user',
+    { tag: ['@api', '@regression'] },
+    async ({ reqresClient }, testInfo) => {
+      const result = await reqresClient.getUser(23);
+      await recordApiTiming(testInfo, 'GET /api/users/23', result.elapsedMs);
 
-    expect(body).toMatchObject({
-      page: expect.any(Number),
-      per_page: expect.any(Number),
-      total: expect.any(Number),
-      total_pages: expect.any(Number),
-      data: expect.any(Array),
-    });
+      expect(result.response.status()).toBe(404);
+      expect(result.response.headers()['content-type']).toContain('application/json');
+      expect(result.body).toEqual({});
+    },
+  );
 
-    expect(body.total).toBe(12);
-    expect(body.data[0].last_name).toBe('Lawson');
-    expect(body.data[1].last_name).toBe('Ferguson');
+  for (const payload of usersToCreate) {
+    test(
+      `POST /api/users creates ${payload.name} with an echoed contract`,
+      { tag: ['@api', '@regression'] },
+      async ({ reqresClient }, testInfo) => {
+        const result = await reqresClient.createUser(payload);
+        await recordApiTiming(testInfo, `POST /api/users (${payload.name})`, result.elapsedMs);
 
-    expect(body.data.length).toBe(body.per_page);
-    expect(body.data.length).toBeLessThanOrEqual(body.total);
+        expect(result.response.status()).toBe(201);
+        expect(result.response.headers()['content-type']).toContain('application/json');
+        expect(result.body).toMatchObject(payload);
 
-    for (const user of body.data) {
-      expect(user).toMatchObject({
-        id: expect.any(Number),
-        email: expect.any(String),
-        first_name: expect.any(String),
-        last_name: expect.any(String),
-        avatar: expect.any(String),
-      });
-    }
-
-    if (body.support) {
-      expect(body.support).toMatchObject({
-        url: expect.any(String),
-        text: expect.any(String),
-      });
-    }
-  });
-
-  // Loop outside test() so each user generates a separate named test case in the report.
-  // This makes failures immediately visible per user, not hidden inside a single test.
-  for (const user of usersToCreate) {
-    test(`POST /api/users — should create user "${user.name}" (${user.job})`, async ({
-      request,
-    }) => {
-      /**
-       * Validates that the user creation endpoint works correctly for
-       * multiple different payloads. Data-driven approach ensures the endpoint
-       * handles various inputs consistently. A broken POST = no new users
-       * can be created, blocking all registration flows.
-       */
-      const start = Date.now();
-      const response = await request.post('/api/users', {
-        data: { name: user.name, job: user.job },
-      });
-      const elapsed = Date.now() - start;
-
-      expect(response.status()).toBe(201);
-      expect(elapsed).toBeLessThan(RESPONSE_TIME_LIMIT_MS);
-
-      const body = await response.json();
-
-      expect(body).toMatchObject({
-        name: user.name,
-        job: user.job,
-        id: expect.any(String),
-        createdAt: expect.any(String),
-      });
-
-      expect(body.id.length).toBeGreaterThan(0);
-      expect(new Date(body.createdAt).getTime()).not.toBeNaN();
-    });
+        const createdAt = Date.parse(result.body.createdAt);
+        const now = Date.now();
+        expect(createdAt).toBeGreaterThan(now - 5 * 60 * 1_000);
+        expect(createdAt).toBeLessThanOrEqual(now + 30_000);
+      },
+    );
   }
 });
