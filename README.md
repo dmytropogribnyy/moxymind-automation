@@ -67,8 +67,7 @@ config/                 typed environment and reliability controls
 clients/                external API request boundaries
 schemas/                runtime API contracts and inferred TypeScript types
 fixtures/               shared Playwright dependency wiring
-pages/                  UI locators and actions
-pages/                  focused SauceDemo Page Objects
+pages/                  Page Objects for stable locators and UI actions
 test-data/              users, products, customer details, API payloads
 tests/
   ui/                    retail journey coverage
