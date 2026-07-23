@@ -27,11 +27,11 @@ API coverage owns transport and contract behavior. The typed client performs req
 
 ## Execution groups
 
-| Group | Intent | Current examples |
-|---|---|---|
-| `@smoke` | Fast confidence after a change | valid login, complete checkout, paginated GET contract |
-| `@critical` | Main outcome cannot be released confidently when broken | retail purchase path, principal API listing contract |
-| `@regression` | Wider behavior and defensive checks | access denial, logout, sorting, validation, cart state, negative API response, creation variants |
+| Group         | Intent                                                  | Current examples                                                                                 |
+| ------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `@smoke`      | Fast confidence after a change                          | valid login, complete checkout, paginated GET contract                                           |
+| `@critical`   | Main outcome cannot be released confidently when broken | retail purchase path, principal API listing contract                                             |
+| `@regression` | Wider behavior and defensive checks                     | access denial, logout, sorting, validation, cart state, negative API response, creation variants |
 
 `@ui` and `@api` identify the technical boundary and can be combined with the risk tags.
 

@@ -21,15 +21,8 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   outputDir: 'test-results',
   reporter: process.env.CI
-    ? [
-        ['github'],
-        ['html', { outputFolder: 'playwright-report', open: 'never' }],
-        ['list'],
-      ]
-    : [
-        ['html', { outputFolder: 'playwright-report', open: 'never' }],
-        ['list'],
-      ],
+    ? [['github'], ['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']]
+    : [['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']],
   projects: [
     {
       name: 'ui',

@@ -8,15 +8,15 @@ SauceDemo and ReqRes are public external test services used as automation target
 
 ## At a glance
 
-| Capability | Implementation |
-|---|---|
-| Critical retail flow | Login → cart → customer details → order summary → completion |
-| UI risk coverage | Authentication, access control, session logout, sorting, cart state, required fields, checkout |
+| Capability            | Implementation                                                                                 |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| Critical retail flow  | Login → cart → customer details → order summary → completion                                   |
+| UI risk coverage      | Authentication, access control, session logout, sorting, cart state, required fields, checkout |
 | API contract coverage | Pagination, status and headers, typed payloads, runtime schemas, negative response, timestamps |
-| Execution model | Independent `ui` and `api` Playwright projects with smoke, critical, and regression tags |
-| Quality controls | ESLint, Prettier, strict TypeScript, `forbidOnly` in CI, bounded retries |
-| Evidence | HTML reports, traces, screenshots, videos, API timing attachments, GitHub Job Summary |
-| CI | Pull requests, pushes to `main`, and manual selective suite execution |
+| Execution model       | Independent `ui` and `api` Playwright projects with smoke, critical, and regression tags       |
+| Quality controls      | ESLint, Prettier, strict TypeScript, `forbidOnly` in CI, bounded retries                       |
+| Evidence              | HTML reports, traces, screenshots, videos, API timing attachments, GitHub Job Summary          |
+| CI                    | Pull requests, pushes to `main`, and manual selective suite execution                          |
 
 ## Business risks covered
 
@@ -185,13 +185,13 @@ npm run report
 
 ### Environment controls
 
-| Variable | Default | Purpose |
-|---|---:|---|
-| `SAUCEDEMO_BASE_URL` | `https://www.saucedemo.com` | UI target override |
-| `REQRES_BASE_URL` | `https://reqres.in` | API target override |
-| `REQRES_API_KEY` | empty | Optional external-service credential |
-| `API_PERFORMANCE_GATE` | `false` | Explicitly enable response-time failure |
-| `API_RESPONSE_TIME_THRESHOLD_MS` | `2000` | Threshold used only when the gate is enabled |
+| Variable                         |                     Default | Purpose                                      |
+| -------------------------------- | --------------------------: | -------------------------------------------- |
+| `SAUCEDEMO_BASE_URL`             | `https://www.saucedemo.com` | UI target override                           |
+| `REQRES_BASE_URL`                |         `https://reqres.in` | API target override                          |
+| `REQRES_API_KEY`                 |                       empty | Optional external-service credential         |
+| `API_PERFORMANCE_GATE`           |                     `false` | Explicitly enable response-time failure      |
+| `API_RESPONSE_TIME_THRESHOLD_MS` |                      `2000` | Threshold used only when the gate is enabled |
 
 ## Engineering ownership
 

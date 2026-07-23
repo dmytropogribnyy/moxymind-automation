@@ -67,9 +67,7 @@ test.describe('Cart and checkout journeys', () => {
         await checkoutPage.submitCustomerDetails(validCustomer);
 
         await expect(checkoutPage.summaryProduct(products.backpack.name)).toBeVisible();
-        await expect(checkoutPage.itemTotal).toHaveText(
-          `Item total: $${products.backpack.price}`,
-        );
+        await expect(checkoutPage.itemTotal).toHaveText(`Item total: $${products.backpack.price}`);
         await expect(checkoutPage.tax).toContainText('Tax: $');
         await expect(checkoutPage.total).toContainText('Total: $');
       });

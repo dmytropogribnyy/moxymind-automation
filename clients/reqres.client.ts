@@ -5,11 +5,7 @@ import {
   createUserResponseSchema,
   usersPageSchema,
 } from '../schemas/reqres.schemas';
-import type {
-  CreateUserPayload,
-  CreateUserResponse,
-  UsersPage,
-} from '../schemas/reqres.schemas';
+import type { CreateUserPayload, CreateUserResponse, UsersPage } from '../schemas/reqres.schemas';
 
 export interface TimedApiResult<T> {
   response: APIResponse;
